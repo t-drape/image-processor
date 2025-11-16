@@ -2,7 +2,7 @@ import cv2 as cv
 
 import shared
 import box_blur
-
+import pixelate
 # 0 imports the image in grayscale
 
 def main():
@@ -12,10 +12,15 @@ def main():
       print(f"Selected File: {file_path}")
       image = cv.imread(file_path)
       blurred_image = image.copy()
+      pixelated_image = image.copy()
       blurred_image = box_blur.blur(blurred_image, image)
-      new_file_path = file_path[:-4] + "_blurred" + file_path[-4:]
-      print(f"Your Image: {new_file_path}")
-      print(cv.imwrite(new_file_path, blurred_image))
+      pixelated_image = pixelate.pixelated(pixelated_image, image)
+      new_file_path_blurred = file_path[:-4] + "_blurred" + file_path[-4:]
+      new_file_path_pixelated = file_path[:-4] + "_pixelated" + file_path[-4:]
+      print(f"Your Blurred Image: {new_file_path_blurred}")
+      print(f"Your Pixelated Image: {new_file_path_pixelated}")
+      print(cv.imwrite(new_file_path_blurred, blurred_image))
+      print(cv.imwrite(new_file_path_pixelated, pixelated_image))
     else:
       print("No Image Selected, please try again.")
 # Now perform a blur on the image

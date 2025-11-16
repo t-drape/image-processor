@@ -1,5 +1,4 @@
 import numpy as np
-from math import ceil
 
 import shared
 
@@ -31,16 +30,11 @@ def calculate_blur_values(pixels: list[list[int]], is_color=True) -> list[int,in
     else:
       #Use this for grayscale
       return (np.sum(pixels) / num_used_values)
-    
-def calculate_kernel_size(height, width):
-    """Mathematical function to determine proper kernel size"""
-    print((3 * ceil(height/width), 3 * ceil(width/height)))
-    return (3 * ceil(height/width), 3 * ceil(width/height))
 
 def blur(blurred_image, image):
   """Perform box blur on given image without changing original image"""
   height = len(image)
-  kernel_size = calculate_kernel_size(height, len(image[0]))
+  kernel_size = list(map(lambda x: 3*x, shared.calculate_kernel_size(height, len(image[0]))))
   for height_index, pixel_array in enumerate(image):
         width = len(pixel_array)
         for width_index, pixel_value in enumerate(pixel_array):

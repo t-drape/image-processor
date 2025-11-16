@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 
-from math import floor
+from math import floor, ceil
 
 
 def find_image() -> str:
@@ -34,6 +34,10 @@ def filter_pixels(height, width, box_blur_values: list[list[int]], image: list[l
    filtered_values = list(filter(lambda pixel: (pixel[0] < height) and (pixel[1] < width) and (pixel[0] >= 0) and (pixel[1] >= 0), box_blur_values))
    return [image[pixel[0]][pixel[1]] for pixel in filtered_values]
 
+def filter_pixels_return_indices(height, width, box_blur_values: list[list[int]], image: list[list[int]]) -> list[list[int]]:
+    """Return the indices of pixels in the image"""
+    return list(filter(lambda pixel: (pixel[0] < height) and (pixel[1] < width) and (pixel[0] >= 0) and (pixel[1] >= 0), box_blur_values))
+
 def color_values(pixels: list[list[int]]) -> dict:
     """Sum the Blue, Green, and Red values in the box blur pixels"""
     c_values = {"red": [], "blue": [], "green": []}
@@ -42,3 +46,7 @@ def color_values(pixels: list[list[int]]) -> dict:
         c_values["green"].append(pixel[1])
         c_values["blue"].append(pixel[0])
     return c_values
+
+def calculate_kernel_size(height, width):
+    """Mathematical function to determine proper kernel size"""
+    return [ceil(height/width), ceil(width/height)]
