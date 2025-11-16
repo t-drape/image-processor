@@ -1,6 +1,6 @@
 import numpy as np
 
-from shared import color_values
+import shared
 
 
 def sum_color_values(c_values: dict) -> list[int, int, int]:
@@ -18,7 +18,7 @@ def calculate_blur_values(pixels: list[list[int]], is_color=True) -> list[int,in
       #     red_values.append(pixel[2])
       #     green_values.append(pixel[1])
       #     blue_values.append(pixel[0])
-      c_values = sum_color_values(color_values(pixels))
+      c_values = sum_color_values(shared.color_values(pixels))
       # Fixed the largest issue! Instead of using the built-in python sum function
       # Use the Numpy sum function. This resolved the Runtime Warning for Overflow
       calculated_blur_red = (c_values["red"] / num_used_values)
@@ -30,3 +30,16 @@ def calculate_blur_values(pixels: list[list[int]], is_color=True) -> list[int,in
     else:
       #Use this for grayscale
       return (np.sum(pixels) / num_used_values)
+
+def blur(kernel_size, blurred_image, image):
+  height = len(image)
+  for height_index, pixel_array in enumerate(image):
+        width = len(pixel_array)
+        for width_index, pixel_value in enumerate(pixel_array):
+          bbv = shared.get_indices(kernel_size, height_index, width_index)
+          bp = shared.filter_pixels(height, width, bbv, blurred_image)
+          if len(bp) != 0:
+            # Set image
+            blurred_image[height_index][width_index] = calculate_blur_values(bp)
+
+  return blurred_image

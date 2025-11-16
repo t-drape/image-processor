@@ -5,7 +5,6 @@ import box_blur
 
 # 0 imports the image in grayscale
 
-
 def main():
     """A photo editing program written in Python, automatically box blurs the given image"""
     file_path = shared.find_image()
@@ -13,16 +12,8 @@ def main():
       print(f"Selected File: {file_path}")
       image = cv.imread(file_path)
       blurred_image = image.copy()
-      height = len(image)
       kernel_size = (5, 3)
-      for height_index, pixel_array in enumerate(image):
-        width = len(pixel_array)
-        for width_index, pixel_value in enumerate(pixel_array):
-          bbv = shared.get_indices(kernel_size, height_index, width_index)
-          bp = shared.filter_pixels(height, width, bbv, blurred_image)
-          if len(bp) != 0:
-            # Set image
-            blurred_image[height_index][width_index] = box_blur.calculate_blur_values(bp)
+      blurred_image = box_blur.blur(kernel_size, blurred_image, image)
       new_file_path = file_path[:-4] + "_blurred" + file_path[-4:]
       print(f"Your Image: {new_file_path}")
       print(cv.imwrite(new_file_path, blurred_image))
