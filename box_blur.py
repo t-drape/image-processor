@@ -38,6 +38,7 @@ def calculate_kernel_size(height, width):
     return (3 * ceil(height/width), 3 * ceil(width/height))
 
 def blur(blurred_image, image):
+  """Perform box blur on given image without changing original image"""
   height = len(image)
   kernel_size = calculate_kernel_size(height, len(image[0]))
   for height_index, pixel_array in enumerate(image):
