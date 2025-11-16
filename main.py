@@ -12,8 +12,7 @@ def main():
       print(f"Selected File: {file_path}")
       image = cv.imread(file_path)
       blurred_image = image.copy()
-      kernel_size = (5, 3)
-      blurred_image = box_blur.blur(kernel_size, blurred_image, image)
+      blurred_image = box_blur.blur(blurred_image, image)
       new_file_path = file_path[:-4] + "_blurred" + file_path[-4:]
       print(f"Your Image: {new_file_path}")
       print(cv.imwrite(new_file_path, blurred_image))
